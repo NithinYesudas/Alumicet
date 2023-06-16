@@ -17,7 +17,7 @@ class ProfileProvider extends ChangeNotifier {
     return _selectedUser;
   }
 
-  bool isFollowing = true;
+  bool isFollowing = false;
 
   Future<void> fetchUserDetails(String selectedUserId) async {
     final currentUserId = FirebaseAuth.instance.currentUser!.uid;

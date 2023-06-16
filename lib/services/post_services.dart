@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
+
 import '../utils/accessory_widgets.dart';
 
 class PostServices {
@@ -20,7 +22,7 @@ class PostServices {
       TaskSnapshot details = await reference
           .ref()
           .child("posts/$uid/$fileName")
-          .putData(image,metaData)
+          .putData(image, metaData)
           .whenComplete(() {});
       if (details.state == TaskState.success) {
         isSuccessful = true;
@@ -35,7 +37,7 @@ class PostServices {
           "caption": caption,
           "postId": "",
           "likesCount": 0,
-          "commentsCount":0,
+          "commentsCount": 0,
           "createdAt": DateTime.now().toIso8601String()
         });
       }
@@ -112,5 +114,46 @@ class PostServices {
     } catch (e) {
       AccessoryWidgets.snackBar("An error occurred", context);
     }
+  }
+
+  static Future<bool> deletePost(String userId, String postId) async {
+    bool isSuccessful = false;
+    try {
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(userId)
+          .collection("images")
+          .doc(postId)
+          .delete();
+      await FirebaseFirestore.instance.collection("users").doc(userId).update({
+        "postCount": FieldValue.increment(-1),
+      });
+
+      isSuccessful = true;
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    } catch (e) {
+      print(e.toString());
+    }
+    return isSuccessful;
+  }
+
+  static Future<bool> updatePost(
+      String userId, String postId, String caption) async {
+    bool isSuccessful = false;
+    try {
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(userId)
+          .collection("images")
+          .doc(postId)
+          .update({"caption": caption});
+      isSuccessful = true;
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    } catch (e) {
+      print(e.toString());
+    }
+    return isSuccessful;
   }
 }

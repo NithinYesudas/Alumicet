@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
@@ -29,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.lightAccent,
+        leading: SizedBox(),
         title: Text(
           "AlumICET",
           style: GoogleFonts.nunito(
