@@ -26,15 +26,13 @@ class _PostViewScreenState extends State<PostViewScreen> {
   @override
   Widget build(BuildContext context) {
     _bioController.text = widget.post["caption"];
-    final mediaQuery = MediaQuery
-        .of(context)
-        .size;
+    final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.lightAccent,
         foregroundColor: Colors.white,
         title: Text(
-          "Post Edit",
+          "Edit Post",
           style: GoogleFonts.nunitoSans(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -61,7 +59,7 @@ class _PostViewScreenState extends State<PostViewScreen> {
                           TextButton(
                             onPressed: () {
                               PostServices.deletePost(widget.post["userId"],
-                                  widget.post["postId"])
+                                      widget.post["postId"])
                                   .then((value) {
                                 Navigator.of(context).pop();
                                 Navigator.of(context).pop();
@@ -96,14 +94,14 @@ class _PostViewScreenState extends State<PostViewScreen> {
       body: Column(
         children: [
           SizedBox(
-            height: mediaQuery.height * .7,
+            height: mediaQuery.height * .65,
             child: Image.network(
               widget.post["imageUrl"],
               fit: BoxFit.cover,
             ),
           ),
           SizedBox(
-            height: mediaQuery.height * .05,
+            height: mediaQuery.height * .03,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: mediaQuery.width * .05),
@@ -115,7 +113,7 @@ class _PostViewScreenState extends State<PostViewScreen> {
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                   contentPadding:
-                  EdgeInsets.symmetric(vertical: mediaQuery.height * .02),
+                      EdgeInsets.symmetric(vertical: mediaQuery.height * .02),
                   prefixIcon: Icon(
                     Ionicons.accessibility_outline,
                     color: CustomColors.lightAccent,
