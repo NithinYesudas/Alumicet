@@ -5,16 +5,16 @@ class Post {
   final DateTime createdAt;
   final bool isLiked;
 
-  Post(
-      {required this.userId,
-      required this.postId,
-      required this.imageUrl,
-      required this.caption,
-      required this.commentsCount,
-      required this.isLiked,
-      required this.likesCount,
-      required this.createdAt,
-});
+  Post({
+    required this.userId,
+    required this.postId,
+    required this.imageUrl,
+    required this.caption,
+    required this.commentsCount,
+    required this.isLiked,
+    required this.likesCount,
+    required this.createdAt,
+  });
 }
 
 class Comment {

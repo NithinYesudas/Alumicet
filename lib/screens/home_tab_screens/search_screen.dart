@@ -8,7 +8,6 @@ import 'profile_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
-
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
@@ -21,7 +20,6 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: TextField(
           decoration: InputDecoration(
               contentPadding:
@@ -84,9 +82,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(imageUrl),
                 ),
-                subtitle: Text(data['role'],style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w600),),
-
-                title: Text(name,style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w700),),
+                subtitle: Text(
+                  data['role'],
+                  style: GoogleFonts.nunitoSans(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                title: Text(
+                  name,
+                  style: GoogleFonts.nunitoSans(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(

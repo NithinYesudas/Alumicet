@@ -38,16 +38,17 @@ class PostList extends StatelessWidget {
                   ),
                   itemBuilder: (ctx, index) {
                     final post = posts[index].data();
-                    print(post);
+
                     return GestureDetector(
                       onTap: selectedUserId == currentUid
                           ? () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => PostViewScreen(
-                                            post: post,
-                                          )));
+                                    builder: (context) => PostViewScreen(
+                                      post: post,
+                                    ),
+                                  ));
                             }
                           : () {},
                       child: SizedBox(

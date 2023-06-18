@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../screens/home_tab_screens/profile_screen.dart';
 
 class PostHeadWidget extends StatelessWidget {
   const PostHeadWidget({required this.userId, Key? key}) : super(key: key);
@@ -21,16 +22,21 @@ class PostHeadWidget extends StatelessWidget {
           return SizedBox(
             height: mediaQuery.height * .07,
             child: ListTile(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => ProfileScreen(
+                          userId: userId,
+                        )));
+              },
               leading: CircleAvatar(
                 backgroundColor: Colors.white,
-                radius: mediaQuery.height*.03,
+                radius: mediaQuery.height * .03,
                 backgroundImage: NetworkImage(data["imageUrl"]),
               ),
               title: Text(
                 name,
                 style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w700),
               ),
-
             ),
           );
         });

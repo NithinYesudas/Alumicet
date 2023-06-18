@@ -1,4 +1,5 @@
 import 'package:alumni_connect/screens/auth/auth_pages.dart';
+import 'package:alumni_connect/screens/edit_proile.dart';
 import 'package:alumni_connect/utils/custom_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,32 +31,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery
-        .of(context)
-        .size;
+    final mediaQuery = MediaQuery.of(context).size;
     final currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
         appBar: AppBar(
+
           backgroundColor: CustomColors.lightAccent,
           actions: [
+            if (widget.userId == currentUserId) ...[
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (ctx) => const EditProfile()));
+                  },
+                  icon: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  )),
+              SizedBox(
+                width: mediaQuery.width * .02,
+              ),
+              IconButton(
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut().then((value) =>
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => const AuthPages())));
+                  },
+                  icon: const Icon(
+                    Icons.logout_rounded,
+                    color: Colors.white,
+                  )),
 
-            widget.userId == currentUserId
-                ? IconButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut().then((value) =>
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (ctx) => const AuthPages())));
-                },
-                icon: const Icon(
-                  Icons.logout_rounded,
-                  color: Colors.white,
-                ))
-                : SizedBox()
+            ]
+
           ],
-          leading: const SizedBox(),
+          leading: SizedBox(),
           leadingWidth: 2,
           title: Consumer<ProfileProvider>(builder: (context, data, child) {
             final user = data.getSelectedUser;

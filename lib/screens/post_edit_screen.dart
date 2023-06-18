@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _PostEditScreenState extends State<PostEditScreen> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 0,
-        leading: SizedBox(),
+        leading: const SizedBox(),
         backgroundColor: CustomColors.lightAccent,
         title: Text(
           "Post a Job",
@@ -61,7 +60,8 @@ class _PostEditScreenState extends State<PostEditScreen> {
                   maxLines: null,
                   textInputAction: TextInputAction.newline,
                   decoration: InputDecoration(
-                      contentPadding:  EdgeInsets.symmetric(vertical: mediaQuery.height*.02),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: mediaQuery.height * .02),
                       prefixIcon: Icon(
                         Ionicons.chatbox_outline,
                         color: CustomColors.lightAccent,

@@ -135,7 +135,7 @@ class _UserDataCollectionState extends State<UserDataCollection> {
                         TextFormField(
                           controller: _nameController,
                           validator: (value) {
-                            if (value!.isEmpty || value.length < 2) {
+                            if (value!.isEmpty || value.length < 2 || value.contains(RegExp(r'[0-9]'))) {
                               return "Invalid name";
                             } else {
                               return null;

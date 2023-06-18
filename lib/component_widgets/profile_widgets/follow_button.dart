@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,11 +9,8 @@ import '../../services/follow_services.dart';
 import '../../utils/custom_colors.dart';
 
 class FollowButton extends StatefulWidget {
-  const FollowButton(
-      {required this.userId, Key? key})
-      : super(key: key);
+  const FollowButton({required this.userId, Key? key}) : super(key: key);
   final String userId;
-
 
   @override
   State<FollowButton> createState() => _FollowButtonState();
@@ -72,9 +68,9 @@ class _FollowButtonState extends State<FollowButton> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => MessagesScreen(selectedUser: data.getSelectedUser)));
+                        builder: (ctx) => MessagesScreen(
+                            selectedUser: data.getSelectedUser)));
                   },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

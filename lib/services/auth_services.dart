@@ -6,12 +6,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../utils/accessory_widgets.dart';
 
 class AuthServices {
-
   static Future<bool> login(
       String email, String password, BuildContext ctx) async {
     // function for login
@@ -61,8 +59,8 @@ class AuthServices {
     return isSuccessful;
   }
 
-  static Future<bool> uploadDetails(
-      Uint8List image, String name, String bio,String passOutYear, BuildContext ctx) async {
+  static Future<bool> uploadDetails(Uint8List image, String name, String bio,
+      String passOutYear, BuildContext ctx) async {
     //to upload user details to database
     bool isSuccessful = true;
     try {
@@ -71,41 +69,40 @@ class AuthServices {
       String? email = authRef.currentUser!.email;
       final fireStoreRef = FirebaseFirestore.instance;
       String role;
-      if(int.parse(passOutYear)>DateTime.now().year){
+      if (int.parse(passOutYear) > DateTime.now().year) {
         role = "Student";
-
-      }else{
+      } else {
         role = "Alumni";
       }
 
-
       final metadata = SettableMetadata(contentType: 'image/jpeg');
-      TaskSnapshot details = await FirebaseStorage.instance.//upload image to storage
+      TaskSnapshot details = await FirebaseStorage.instance
+          . //upload image to storage
           ref()
           .child("profileImages/$uid/$uid.jpg")
-          .putData(image,metadata)
+          .putData(image, metadata)
           .whenComplete(() {});
       if (details.state == TaskState.success) {
-        String imageUrl = await details.ref.getDownloadURL();//get image url from storage
+        String imageUrl =
+            await details.ref.getDownloadURL(); //get image url from storage
 
         await fireStoreRef.collection('users').doc(uid).set({
           "userId": uid,
           "email": email,
           "name": name,
           "bio": bio,
-          "role":role,
-          "passOutYear":passOutYear,
+          "role": role,
+          "passOutYear": passOutYear,
           "imageUrl": imageUrl,
-          "followingCount":0,
-          "followersCount":0,
-          "postCount":0
+          "followingCount": 0,
+          "followersCount": 0,
+          "postCount": 0
         });
       }
     } on FirebaseException catch (e) {
       isSuccessful = false;
       print(e.message);
-      AccessoryWidgets.snackBar(
-          'FirebaseException while uploading file', ctx);
+      AccessoryWidgets.snackBar('FirebaseException while uploading file', ctx);
       // Handle FirebaseException
     } on IOException catch (e) {
       isSuccessful = false;
@@ -114,23 +111,50 @@ class AuthServices {
     } catch (e) {
       isSuccessful = false;
       print(e);
-      AccessoryWidgets.snackBar('An Unknown error occured while uploading', ctx);
+      AccessoryWidgets.snackBar(
+          'An Unknown error occured while uploading', ctx);
       // Handle other exceptions
     }
 
     return isSuccessful;
   }
 
-  static Future<void> deleteAccount()async{
+  static Future<void> deleteAccount() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     final uid = currentUser!.uid;
     await FirebaseFirestore.instance.collection("users").doc(uid).delete();
     await currentUser.delete();
+  }
 
+  static Future<bool> updateDetails(
+      Uint8List image, String name, String bio, BuildContext ctx) async {
+    bool isSuccessful = false;
+    try {
+      final authRef = FirebaseAuth.instance;
+      String? uid = authRef.currentUser?.uid;
+      final metadata = SettableMetadata(contentType: 'image/jpeg');
+      TaskSnapshot details = await FirebaseStorage.instance
+          . //upload image to storage
+          ref()
+          .child("profileImages/$uid/$uid.jpg")
+          .putData(image, metadata)
+          .whenComplete(() {});
+      if (details.state == TaskState.success) {
+        String imageUrl =
+            await details.ref.getDownloadURL(); //get image url from storage
 
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(uid)
+            .update({"name": name, "bio": bio, "imageUrl": imageUrl});
+        isSuccessful = true;
+      }
+    } on FirebaseException catch (e) {
+      AccessoryWidgets.snackBar(e.message!, ctx);
+    } catch (e) {
+      AccessoryWidgets.snackBar("An error occured", ctx);
+    }
 
-
-
-
+    return isSuccessful;
   }
 }

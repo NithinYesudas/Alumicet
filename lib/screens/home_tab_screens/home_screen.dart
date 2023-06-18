@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+
 import '../../component_widgets/homescreen_widgets/post.dart';
 import '../../component_widgets/homescreen_widgets/story_widget.dart';
 import '../../models/post_model.dart';
@@ -11,6 +12,7 @@ import '../../utils/custom_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -32,9 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(
           "AlumICET",
           style: GoogleFonts.nunito(
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-              fontSize: 20),
+              fontWeight: FontWeight.w900, color: Colors.white, fontSize: 20),
         ),
         actions: [
           IconButton(
@@ -50,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           const StoryWidget(),
-         const Divider(thickness: 3,),
+          const Divider(
+            thickness: 3,
+          ),
           Expanded(
             child: Selector<PostProvider, List<Post>>(
                 selector: (_, postProvider) => postProvider.getFollowingPosts,
@@ -59,12 +61,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Center(
                       child: Column(
                         children: [
-                          SizedBox(height: mediaQuery.height*.5,width: mediaQuery.width,
-                          child: Image.asset("assets/images/nothing.jpg"),),
-                          SizedBox(height: mediaQuery.height*.05,),
+                          SizedBox(
+                            height: mediaQuery.height * .5,
+                            width: mediaQuery.width,
+                            child: Image.asset("assets/images/nothing.jpg"),
+                          ),
+                          SizedBox(
+                            height: mediaQuery.height * .05,
+                          ),
                           Text(
                             "Follow some Alumni's to see their posts",
-                            style: GoogleFonts.nunitoSans(fontWeight: FontWeight.w700),
+                            style: GoogleFonts.nunitoSans(
+                                fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),
@@ -74,11 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   return RefreshIndicator(
                     color: CustomColors.lightAccent,
-                    onRefresh: ()async{
+                    onRefresh: () async {
                       Provider.of<PostProvider>(context, listen: false)
                           .fetchFollowingPosts;
-                      Provider.of<StoryProvider>(context,listen: false).fetchStories();
-                      Provider.of<StoryProvider>(context,listen: false).getMyyStory();
+                      Provider.of<StoryProvider>(context, listen: false)
+                          .fetchStories();
+                      Provider.of<StoryProvider>(context, listen: false)
+                          .getMyyStory();
                     },
                     child: (ListView.builder(
                         itemCount: posts.length,
@@ -95,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }),
           ),
-         
         ],
       ),
     );
