@@ -36,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
         appBar: AppBar(
-
           backgroundColor: CustomColors.lightAccent,
           actions: [
             if (widget.userId == currentUserId) ...[
@@ -66,12 +65,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Icons.logout_rounded,
                     color: Colors.white,
                   )),
-
             ]
-
           ],
-          leading: SizedBox(),
-          leadingWidth: 2,
+          leading: widget.userId == currentUserId
+              ? SizedBox()
+              : IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+
           title: Consumer<ProfileProvider>(builder: (context, data, child) {
             final user = data.getSelectedUser;
 
